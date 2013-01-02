@@ -1,0 +1,77 @@
+# Make sure all the editable ones of ladders is LOWER CASE! see example MUST BE LIKE THIS but with your own
+# When you type /rankup <ladder>
+
+####################################################################
+###### READ NOW SO YOU WONT GET ERRORS OR IT DOES NOTHING!!!! ######
+#                                                                  # 
+#  On the ladder groups like the fire: fire_novice. Thats the      #
+# level they require in order for the ladder to start the chain!   #
+#                                                                  #
+#################################################################### 
+
+Config:
+  # Have old payranks back with new paidranks?
+  #If you want /rankup
+  oldpayranks: false
+  #If you want ladders
+  ladders: true
+  # permission is for the permission node for the default /rankup
+  permission: paidranks.nonladder
+
+####### If Config.oldpayranks is true ONLY!
+
+OldPayRanks:
+  groupslist:
+  - default
+  - member
+  Prices:
+    default: 0
+    member: 100
+
+####### If Config.oldpayranks is true ONLY!
+
+Ladders:
+- fire
+- frost
+- aura
+
+Prices:
+  fire:
+    fire_novice: 100.0
+    fire_apprentice: 200.0
+    fire_apprentice: 300.0
+  frost:
+    frost_novice: 100.0
+    frost_apprentice: 200.0
+    frost_apprentice: 300.0
+  aura:
+    aura_novice: 100.0
+    aura_apprentice: 200.0
+    aura_apprentice: 300.0
+
+Permissions:
+  fire: paidranks.fire
+  frost: paidranks.frost
+  aura: paidranks.aura
+
+fire:
+- fire_novice
+- fire_apprentice
+- fire_master
+
+frost:
+- frost_novice
+- frost_apprentice
+- frost_master
+
+aura:
+- aura_novice
+- aura_apprentice
+- aura_master
+
+# These lists are ordered from lowest rank to highest rank.
+# If you change default make sure you change it to the group
+# that your users enter when they join the server
+# or this plugin will not work. Group names must match
+# the group names in your permissions.yml file
+# or ranking up will not function properly.

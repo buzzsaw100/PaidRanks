@@ -1,0 +1,13 @@
+name: PaidRanks
+main: eu.wServers.messageofdeath.PaidRanks.PaidRanks
+version: 1.6
+author: polaris120990
+authors: [messageofdeath]
+description: >
+             Ranks a player up for money.
+depend: [Vault]
+commands:
+  rankup:
+    description: Ranks you up if you can afford it.
+  paidrankreload:
+    description: Reload the Chat Stuff.

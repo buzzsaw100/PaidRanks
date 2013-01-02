@@ -1,0 +1,8 @@
+English:  
+  Highest_Rank_Possible: '&6You are at the highest possible paid rank!'
+  On_Rank_Up_Sent_To_Player: '&aYou have been promoted to the rank of &9+rank'
+  On_Rank_Up_Broadcasting: '&b+name &ahas been promoted to the rank of: &9+rank'
+  Not_Enough_Money: '&cYou need &9+price &cto purchase the rank of: &9+rank'
+  Does_Not_Have_An_Account: '&4You do not have an account! We made you an account!'
+  Invalid_Args: '&4Invalid Args!'
+  No_Permission: '&4You do not have permission for this!'
