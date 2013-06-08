@@ -1,6 +1,6 @@
 name: PaidRanks
-main: eu.wServers.messageofdeath.PaidRanks.PaidRanks
-version: 1.6
+main: eu.wServers.messageofdeath.PaidRanks.PayRanks
+version: 1.8
 author: polaris120990
 authors: [messageofdeath]
 description: >

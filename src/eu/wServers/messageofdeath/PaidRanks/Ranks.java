@@ -1,108 +1,158 @@
 package eu.wServers.messageofdeath.PaidRanks;
 
+import eu.wServers.messageofdeath.PaidRanks.YamlDatabase;
+
 import java.util.ArrayList;
-import java.util.List;
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.permission.Permission;
-import org.bukkit.configuration.file.FileConfiguration;
+
+import org.bukkit.ChatColor;
+
 
 public class Ranks {
-	public static PaidRanks plugin;
 
-	public Ranks(PaidRanks instance) {
-		plugin = instance;
+	public static YamlDatabase getConfig() {
+		return PayRanks.rankprices;
 	}
 
-	public static PaidRanks getPlugin() {
-		return plugin;
+	public static YamlDatabase getEnglish() {
+		return PayRanks.english;
 	}
-
-	public static FileConfiguration getEnglish() {
-		return PaidRanks.English;
-	}
-
-	public static List<?> getLadders() {
-		return getConfig().getStringList("Ladders");
-	}
-
-	public static FileConfiguration getConfig() {
-		return PaidRanks.Rank;
-	}
-
+	
 	public static Vault getVault() {
-		return new Vault();
+		return PayRanks.vault;
 	}
-
-	public static FileConfiguration getRank() {
-		return PaidRanks.Rank;
+	
+	//Both
+	
+	public static String canRankUp(String group, String ladder) {
+		if(ladder == null)
+			return getConfig().getString("DefaultPaidRanks." + group + ".Permission", null);
+		else
+			return getConfig().getString("NewLadders." + ladder + "." + group + ".Permission", null);
 	}
-
-	public static Economy getEco() {
-		return PaidRanks.economy;
+	
+	public static String getNextGroup(String currentRank, ArrayList<String> groups) {
+		boolean stop = false;
+		for(String ranks : groups) {
+			if(stop == false) {
+				if(ranks.equalsIgnoreCase(currentRank))
+					stop = true;
+				continue;
+			}else{
+				return ranks;
+			}
+		}
+		return null;
 	}
-
-	public static Permission getPer() {
-		return PaidRanks.permission;
+	
+	public static boolean isInGroupList(String currentRank, ArrayList<String> groups) {
+		for(String rank : groups) {
+			if(rank.equalsIgnoreCase(currentRank)) {
+				return true;
+			}
+		}
+		return false;
 	}
+	
+	// Default groups
 
-	public static boolean getPayRanks() {
-		return getRank().getBoolean("Config.oldpayranks");
+	public static boolean isDefaultEnabled() {
+		return getConfig().getBoolean("DefaultPaidRanks.Enabled", false);
 	}
-
-	public static boolean getLaddersBoolean() {
-		return getRank().getBoolean("Config.ladders");
-	}
-
-	public static ArrayList<String> getGroups() {
-		return (ArrayList<String>) getRank().getStringList("OldPayRanks.groupslist");
-	}
-
-	public static double getPrices(String group) {
-		return getRank().getDouble("OldPayRanks.Prices." + group);
-	}
-
+	
 	public static String getDefaultPermission() {
-		return getRank().getString("Config.permission");
+		return getConfig().getString("DefaultPaidRanks.Permission", null);
 	}
+	
+	public static double getDefaultPrice(String group) {
+		return getConfig().getDouble("DefaultPaidRanks." + group + ".Price", 0);
+	}
+	
+	public static ArrayList<String> getDefaultGroups() {
+		ArrayList<String> ranks = new ArrayList<String>();
+		for(String rank : getConfig().getSection("DefaultPaidRanks")) {
+			if(rank.equalsIgnoreCase("Enabled") || rank.equalsIgnoreCase("Permission"))
+				continue;
+			ranks.add(rank);
+		}
+		return ranks;
+	}
+	
+	//************************ Ladders ****************************
+
+	public static boolean isLaddersEnabled() {
+		return getConfig().getBoolean("NewLadders.Enabled", false);
+	}
+	
+	public static ArrayList<String> getLadders() {
+		ArrayList<String> ranks = new ArrayList<String>();
+		for(String rank : getConfig().getSection("NewLadders")) {
+			if(rank.equalsIgnoreCase("Enabled") || rank.equalsIgnoreCase("Permission"))
+				continue;
+			ranks.add(rank);
+		}
+		return ranks;
+	}
+	
+	public static boolean doesLadderExist(String ladder) {
+		for(String ladders : Ranks.getLadders()) {
+			if(ladders.equalsIgnoreCase(ladder)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static ArrayList<String> getLadderGroups(String ladder) {
+		ArrayList<String> ranks = new ArrayList<String>();
+		for(String rank : getConfig().getSection("NewLadders." + ladder)) {
+			if(rank.equalsIgnoreCase("Enabled") || rank.equalsIgnoreCase("Permission"))
+				continue;
+			ranks.add(rank);
+		}
+		return ranks;
+	}
+	
+	public static double getLadderPrice(String ladder, String group) {
+		return getConfig().getDouble("NewLadders." + ladder + "." + group + ".Price", 0);
+	}
+	
+	public static String getLadderPermission(String ladder) {
+		return getConfig().getString("NewLadders." + ladder + ".Permission", null);
+	}
+	
+	//************************ English File *************************
 
 	public static String getNoPermission() {
-		return getEnglish().getString("English.No_Permission").replaceAll(
-				"(&([a-fk-or0-9]))", "§$2");
+		return ChatColor.translateAlternateColorCodes('&',getEnglish().getString("English.No_Permission", null));
 	}
-
-	public static String getPermission(String ladder) {
-		return getRank().getString("Permissions." + ladder);
+	
+	public static String getNotInGroupList(String rank) {
+		return ChatColor.translateAlternateColorCodes('&', getEnglish().getString("English.Not_In_Group_List", null).replace("+rank", rank));
 	}
 
 	public static String getInvalidArgs() {
-		return getEnglish().getString("English.Invalid_Args").replaceAll(
-				"(&([a-fk-or0-9]))", "§$2");
+		return ChatColor.translateAlternateColorCodes('&', getEnglish().getString("English.Invalid_Args", null));
 	}
 
 	public static String getNoAccount() {
-		return getEnglish().getString("English.Does_Not_Have_An_Account")
-				.replaceAll("(&([a-fk-or0-9]))", "§$2");
+		return ChatColor.translateAlternateColorCodes('&', getEnglish().getString("English.Does_Not_Have_An_Account", null));
 	}
 
 	public static String getHigh() {
-		return getEnglish().getString("English.Highest_Rank_Possible")
-				.replaceAll("(&([a-fk-or0-9]))", "§$2");
+		return ChatColor.translateAlternateColorCodes('&', getEnglish().getString("English.Highest_Rank_Possible", null));
 	}
 
 	public static String getRankupPlayer(String rank) {
-		return getEnglish().getString("English.On_Rank_Up_Sent_To_Player")
-				.replaceAll("(&([a-fk-or0-9]))", "§$2").replace("+rank", rank);
+		return ChatColor.translateAlternateColorCodes('&', getEnglish().getString("English.On_Rank_Up_Sent_To_Player", null)).replace("+rank", rank);
 	}
 
 	public static String getRankupBroadcast(String rank, String name) {
-		return getEnglish().getString("English.On_Rank_Up_Broadcasting")
-				.replaceAll("(&([a-fk-or0-9]))", "§$2").replace("+rank", rank)
-				.replace("+name", name);
+		return ChatColor.translateAlternateColorCodes('&', getEnglish().getString("English.On_Rank_Up_Broadcasting", null))
+				.replace("+rank", rank).replace("+name", name);
 	}
 
 	public static String getNoMoney(String money, String rank) {
-		return getEnglish().getString("English.Not_Enough_Money")
-				.replaceAll("(&([a-fk-or0-9]))", "§$2")
+		return ChatColor.translateAlternateColorCodes('&', getEnglish().getString("English.Not_Enough_Money", null))
 				.replace("+price", money).replace("+rank", rank);
 	}
 }

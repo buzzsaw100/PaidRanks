@@ -1,73 +1,42 @@
-# Make sure all the editable ones of ladders is LOWER CASE! see example MUST BE LIKE THIS but with your own
-# When you type /rankup <ladder>
-
-####################################################################
-###### READ NOW SO YOU WONT GET ERRORS OR IT DOES NOTHING!!!! ######
-#                                                                  # 
-#  On the ladder groups like the fire: fire_novice. Thats the      #
-# level they require in order for the ladder to start the chain!   #
-#                                                                  #
-#################################################################### 
-
-Config:
-  # Have old payranks back with new paidranks?
-  #If you want /rankup
-  oldpayranks: false
-  #If you want ladders
-  ladders: true
-  # permission is for the permission node for the default /rankup
-  permission: paidranks.nonladder
-
-####### If Config.oldpayranks is true ONLY!
-
-OldPayRanks:
-  groupslist:
-  - default
-  - member
-  Prices:
-    default: 0
-    member: 100
-
-####### If Config.oldpayranks is true ONLY!
-
-Ladders:
-- fire
-- frost
-- aura
-
-Prices:
-  fire:
-    fire_novice: 100.0
-    fire_apprentice: 200.0
-    fire_apprentice: 300.0
-  frost:
-    frost_novice: 100.0
-    frost_apprentice: 200.0
-    frost_apprentice: 300.0
-  aura:
-    aura_novice: 100.0
-    aura_apprentice: 200.0
-    aura_apprentice: 300.0
-
-Permissions:
-  fire: paidranks.fire
-  frost: paidranks.frost
-  aura: paidranks.aura
-
-fire:
-- fire_novice
-- fire_apprentice
-- fire_master
-
-frost:
-- frost_novice
-- frost_apprentice
-- frost_master
-
-aura:
-- aura_novice
-- aura_apprentice
-- aura_master
+DefaultPaidRanks:
+  #Format =    <rank>:   Example below.
+  #Required      Price: <price>
+  #Optional      permission: <permission>
+  
+  #When true it will use /rankup
+  Enabled: false
+  #There must be a permission here.
+  Permission: paidranks.normal
+  default:
+    Price: 100
+    #This one is optional
+    Permission: paidranks.normal.default
+  # ^^^^ These are examples of permissions with groups
+  #vvv it can look like this too. But it will use the Permission defined at the top.
+  moderator:
+    Price: 200
+NewLadders:
+  #Format = <ladder>:
+  #Required   <rank>:
+  #Required     Price: <price> Example below.
+  #Optional     Permission: <permission>
+  
+  #When true it will use /rankup <ladder>
+  Enabled: false
+  #The ladder name
+  EpicLadder:
+    #There must be a permission here. This is the main perm for the ladder
+    Permission: paidranks.ladder.EpicLadder
+    #This is the group
+    donator:
+      #This is the price (Required)
+      Price: 200
+      #This one is optional
+      Permission: paidranks.ladder.EpicLadder.donator
+    # ^^^^ These are examples of permissions with groups
+    #vvv it can look like this too. But it will use the Permission defined at the top.
+    donator+:
+      Price: 300
 
 # These lists are ordered from lowest rank to highest rank.
 # If you change default make sure you change it to the group
