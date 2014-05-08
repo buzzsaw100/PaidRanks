@@ -80,8 +80,8 @@ public class PayRanks extends JavaPlugin {
 					if(vault.hasEnough(player.getName(), price)) {
 						if(canRank == true ? true : player.hasPermission(permission)) {
 							vault.charge(player.getName(), price);
-							vault.removeGroup(player.getLocation().getWorld(), player.getName(), rank);
-							vault.setGroup(player.getLocation().getWorld(), player.getName(), rankx);
+							vault.removeGroup(null, player.getName(), rank);
+							vault.setGroup(null, player.getName(), rankx);
 							player.sendMessage(Ranks.getRankupPlayer(rankx));
 							getServer().broadcastMessage(Ranks.getRankupBroadcast(rankx, player.getName()));
 							return;
